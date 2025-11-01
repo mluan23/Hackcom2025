@@ -16,7 +16,6 @@ export async function getSpecificUser(req, res) {
         console.error(error);
         return res.status(500).json({ error: error.message });
     }
-
     res.json(data)
 }
 
