@@ -6,7 +6,7 @@ dotenv.config();
 
 
 // we are telling express to use our userRoutes for any requests that start with /api
-const userRoutes = require('./routes/userRoutes');
+import userRoutes from './routes/userRoutes.js';
 
 app.use(express.json());
 app.use('/', userRoutes);

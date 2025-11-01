@@ -1,6 +1,6 @@
-const userService = require('../services/userService');
+// import userService from '../services/userService.js';
 
-exports.getAllUsers = async (req, res) => {
+export async function getAllUsers(req, res) {
     const {data, error} = await supabase.from('users').select('*')
     if (error) {
         console.error(error);
@@ -9,7 +9,7 @@ exports.getAllUsers = async (req, res) => {
     res.json(data)
 }
 
-exports.getSpecificUser = async (req, res) => {
+export async function getSpecificUser(req, res) {
     const id = req.params.id
     const {data, error} = await supabase.from('users').select('*').eq('id', id).single()
     if (error) {
@@ -20,7 +20,7 @@ exports.getSpecificUser = async (req, res) => {
     res.json(data)
 }
 
-exports.addUser = async (req, res) => {
+export async function addUser(req, res) {
     const { username, email } = req.body
     const { data, error } = await supabase.from('users')
     .insert({ username, email }) 
@@ -31,4 +31,10 @@ exports.addUser = async (req, res) => {
     } 
 
     res.status(201).json(data);
+}
+
+export default {
+    getAllUsers,
+    getSpecificUser,
+    addUser
 }
