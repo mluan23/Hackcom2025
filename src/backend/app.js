@@ -1,4 +1,11 @@
-const express = require('express')
+import express from "express";
+import cors from "cors";
+import multer from "multer";
+import { createClient } from "@supabase/supabase-js";
+import dotenv from "dotenv";
+
+dotenv.config();
+
 const app = express()
 const port = 3000
 
