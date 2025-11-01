@@ -5,13 +5,15 @@ import cors from "cors";
 import multer from "multer";
 import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
+dotenv.config();
 
-const SUPABASE_URL = 'https://your-supabase-url.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVma2d4cmVjbnJmYmZkd3BraWVpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MjAwNDY5NSwiZXhwIjoyMDc3NTgwNjk1fQ.Z1pnT-w87gmY8P_OUPLmHhR6mcHwZCYJqFQArQqv25E';
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.SUPABASE_SERVICE_KEY;
+
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-dotenv.config();
+// dotenv.config();
 
 app.use(express.json()) // allow for JSON
 app.use(cors()) // what is cors
