@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 
-// we are telling express to use our userRoutes for any requests that start with /api
+// we are telling express to use our userRoutes for any requests
 import userRoutes from './routes/userRoutes.js';
 
 app.use(express.json());
