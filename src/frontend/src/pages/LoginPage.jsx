@@ -35,9 +35,9 @@ export function LoginPage() {
   };
 
   return (
-    <Container size={420} my={40}>
-      <Title align="center">
-        Welcome back!
+    <Container size={450} my={100}>
+      <Title ta="center">
+        Welcome to *INPUT NAME*!
       </Title>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
@@ -45,14 +45,14 @@ export function LoginPage() {
         <form onSubmit={handleSubmit}>
           <TextInput
             label="Email"
-            placeholder="you@example.com"
+            placeholder="username@example.com"
             required
             value={email}
             onChange={(event) => setEmail(event.currentTarget.value)}
           />
           <PasswordInput
             label="Password"
-            placeholder="Your password"
+            placeholder="Password"
             required
             mt="md"
             value={password}
@@ -68,9 +68,9 @@ export function LoginPage() {
           </Button>
         </form>
 
-        <Group position="center" mt="md">
+        <Group justify="center" mt="md">
           <Anchor component={Link} to="/signup" size="sm">
-            Don't have an account? Sign up
+          Don't have an account? Sign up
           </Anchor>
         </Group>
       </Paper>

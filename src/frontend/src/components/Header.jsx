@@ -1,53 +1,41 @@
-import { AppShell, Header, Title, Group, Button } from '@mantine/core';
-import { Link } from 'react-router-dom'; // Import Link for navigation
+// Not necessary, as App.jsx now uses AppHeader
+
+import { AppShell, Title, Group, Button } from '@mantine/core';
+import { Link, Outlet } from 'react-router-dom';
 
 export function AppHeader() {
   return (
     <AppShell
+      padding="md"
       header={
-        <Header height={60} p="md">
-          <Group position="apart">
-            {/* Logo/Title - Links back to home */}
-            <Title 
-              order={3} 
-              component={Link} 
-              to="/" 
-              style={{ textDecoration: 'none', color: 'black' }}
+        <AppShell.Header height={60} p="md">
+          <Group position="apart" style={{ width: '100%' }}>
+            <Title
+              order={3}
+              component={Link}
+              to="/"
+              sx={{ textDecoration: 'none', color: 'black' }}
             >
-              FlockFeast 🐦
+              FlockFeast 🍽️
             </Title>
-            
-            {/* Navigation Links */}
+
             <Group>
-              <Button 
-                variant="subtle" 
-                component={Link} 
-                to="/create"
-              >
+              <Button variant="subtle" component={Link} to="/create">
                 Post a Meal
               </Button>
-              <Button 
-                variant="default" 
-                component={Link} 
-                to="/login"
-              >
+              <Button variant="default" component={Link} to="/login">
                 Log In
               </Button>
-              <Button 
-                component={Link} 
-                to="/signup"
-              >
+              <Button component={Link} to="/signup">
                 Sign Up
               </Button>
             </Group>
           </Group>
-        </Header>
+        </AppShell.Header>
       }
     >
-      {/* The "children" prop (your actual page content) 
-        will be passed in by React Router.
-        We'll set this up in App.jsx
-      */}
+      {/* React Router outlet for nested routes */}
+      <Outlet />
     </AppShell>
   );
 }
