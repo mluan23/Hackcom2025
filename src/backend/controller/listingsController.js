@@ -1,4 +1,5 @@
 // const userService = require('../services/userService');
+import supabase from '../app.js'
 
 
 export async function getAllListings(req, res) {
