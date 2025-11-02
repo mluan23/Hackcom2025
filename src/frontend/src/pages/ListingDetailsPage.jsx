@@ -8,15 +8,43 @@ export function ListingDetailsPage() {
   const [purchased, setPurchased] = useState(false);
   const [listing, setListing] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [ idd, setIdd ] = useState("");
   
 
   useEffect(() => {
     async function fetchListing() {
       const response = await fetch(`http://localhost:3000/listings/${id}`);
       const data = await response.json();
+      const title = data.title;
+      const desc = data.description;
+      // const formData = FormData()
+      // formData.append()
+      // const recipe = {
+      //   "name": title,
+      //   "description": desc
+      // }
+      // console.log(recipe);
+      const airesponse = await fetch(`http://localhost:3000/createAgent`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: title,
+        })
+      })
+
+      const agent = await airesponse.json();
+      const idd2 = agent.agentId;
+
+
+      
+      
       setListing(data);
       setPurchased(data.purchased);
       setIsLoading(false);
+      setIdd(idd2)
+      console.log(idd);
     }
 
     fetchListing();
@@ -52,7 +80,7 @@ export function ListingDetailsPage() {
         {purchased ? 'Already Purchased' : 'Purchase'}
       </Button>
 
-      <elevenlabs-convai agent-id="agent_5301k91vw62efr3vpgck0ggw3qd7"></elevenlabs-convai>
+      <elevenlabs-convai agent-id={idd}></elevenlabs-convai>
       <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
     </div>
   );
