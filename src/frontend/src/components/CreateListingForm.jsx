@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { TextInput, Textarea, NumberInput, FileInput, Button, Group, Box, Image } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
+
 
 export function CreateListingForm() {
+  const navigate = useNavigate();
   // 1️⃣ Form state
   const [title, setTitle] = useState(''); // Food title
   const [location, setLocation] = useState(''); // Pickup location
@@ -26,18 +29,20 @@ export function CreateListingForm() {
   }, [file]);
 
   // 3️⃣ Handle form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent page reload
     setIsLoading(true); // Show loading state
 
-    // TODO: Upload file & send listing data to backend
-    console.log({ title, location, description, price, file });
+    await fetch('http://localhost:3000/listings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ "title": title, "image_link": file.name, "description": description, "price": price, }),
+    })
+    setIsLoading(false)
+    navigate('/')
 
-    // Simulate an API call
-    setTimeout(() => {
-      alert('Listing created!');
-      setIsLoading(false);
-    }, 1000);
   };
 
   // 4️⃣ Render form
