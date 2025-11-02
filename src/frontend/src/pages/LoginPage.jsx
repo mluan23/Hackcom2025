@@ -35,12 +35,19 @@ export function LoginPage() {
   };
 
   return (
-    <Container size={450} my={100}>
+    <Container 
+      size={450} 
+      my={100}>
       <Title ta="center">
         Welcome to *INPUT NAME*!
       </Title>
 
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+      <Paper 
+        withBorder 
+        shadow="md" 
+        p={30} 
+        mt={30} 
+        radius="md">
         {/* 3. The form itself */}
         <form onSubmit={handleSubmit}>
           <TextInput
