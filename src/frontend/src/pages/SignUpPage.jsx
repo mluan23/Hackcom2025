@@ -106,13 +106,7 @@ export function SignUpPage() {
             // component={Link}
             type="submit"
             loading={isLoading}
-            // variant="outline"
-            sx={(theme) => ({
-              backgroundColor: theme.colors.red[6],
-              '&:hover': {
-                backgroundColor: theme.colors.red[7],
-              },
-            })}
+            variant="filled"
           >
             Sign Up
           </Button>
