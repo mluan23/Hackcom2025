@@ -10,28 +10,50 @@ import {
   Anchor 
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 export function LoginPage() {
+  const navigate = useNavigate();
   // 1. Create state to store what the user types
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   // 2. A function to handle the form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent the page from reloading
     setIsLoading(true);
-    
-    // TODO: Send this data to your backend!
-    console.log('Submitting login form:');
-    console.log('Email:', email);
-    console.log('Password:', password);
-    
-    // Simulate an API call
-    setTimeout(() => {
-      alert('Logged in (simulated) with: ' + email);
+
+    const response = await fetch('http://localhost:3000/users', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const users = await response.json()
+
+    // find user with matching email and password
+    const user = users.find(user => user.email === email && user.password === password);
+    if (!user) {
+      alert('Invalid credentials');
       setIsLoading(false);
-    }, 1000);
+      return;
+    }
+
+    fetch('http://localhost:3000/users/' + user.id, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(response => response.json()) 
+    .then(user => {
+      setIsLoading(false) 
+      navigate(`/`)
+    })
+    .catch(error => {
+      console.error('error')
+    })
   };
 
   return (
