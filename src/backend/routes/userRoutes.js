@@ -57,5 +57,8 @@ router.post('/generate', upload.single('file'), async (req, res) => {
 });
 
 router.post('/createAgent', agentController.createAgent);
+router.post('/generate_s', audioController.generateText2)
+
+// router.post('/generate-audio', generateAudio);
 
 export default router;

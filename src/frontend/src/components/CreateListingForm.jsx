@@ -34,7 +34,7 @@ export function CreateListingForm() {
   const generateDescription = async () => {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('prompt', 'Generate a detailed and appetizing description for a food listing based on the image provided.');
+    formData.append('prompt', 'You are a food reviewer but are not critical. Generate a short, detailed, and appetizing description for a food listing based on the image provided. Do not speak to me. Only describe the food.');
 
     // You can replace this with a real AI-generated string later
     const response = await fetch('http://localhost:3000/generate', {
