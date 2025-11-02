@@ -56,6 +56,8 @@ export function SignUpPage() {
         withBorder
         shadow="md"
         radius="md"
+        p={30}
+        mt={30}
         sx={(theme) => ({
           width: '100%',
           maxWidth: 450,
@@ -98,7 +100,20 @@ export function SignUpPage() {
             onChange={(event) => setPassword(event.currentTarget.value)}
           />
 
-          <Button fullWidth mt="xl" type="submit" loading={isLoading}>
+          <Button
+            fullWidth
+            mt="md"
+            // component={Link}
+            type="submit"
+            loading={isLoading}
+            // variant="outline"
+            sx={(theme) => ({
+              backgroundColor: theme.colors.red[6],
+              '&:hover': {
+                backgroundColor: theme.colors.red[7],
+              },
+            })}
+          >
             Sign Up
           </Button>
         </form>
