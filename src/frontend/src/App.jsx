@@ -3,25 +3,38 @@ import {
   AppShell,
   Title,
   Group,
-  Button,
+  Button, // <--- RE-ADDED THIS IMPORT
   ActionIcon,
   useMantineColorScheme,
   useComputedColorScheme,
+  Container,
+  Center,
 } from '@mantine/core';
 import { IconSun, IconMoon } from '@tabler/icons-react';
+import {
+  SignedIn,
+  SignedOut,
+  SignIn,
+  SignUp,
+  UserButton,
+  RedirectToSignIn,
+} from '@clerk/clerk-react';
 
+// Import your pages
 import { HomePage } from './pages/HomePage';
-import { LoginPage } from './pages/LoginPage';
 import { CreateListingPage } from './pages/CreateListingPage';
 import { ListingDetailsPage } from './pages/ListingDetailsPage';
 import { MyListingsPage } from './pages/MyListingsPage';
-import { SignUpPage } from './pages/SignUpPage';
 
+// We no longer need these! Clerk handles them.
+// import { LoginPage } from './pages/LoginPage';
+// import { SignUpPage } from './pages/SignUpPage';
+
+// 1. This is your main layout for logged-in users
 function AppLayout() {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme('light');
 
-  // Function to toggle between light and dark
   const toggleColorScheme = () =>
     setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light');
 
@@ -29,61 +42,35 @@ function AppLayout() {
     <AppShell>
       <AppShell.Header>
         <Group justify="space-between" p="md" h={60}>
-          {/* App Title / Logo */}
           <Title
             order={3}
             component={Link}
             to="/"
             style={{ textDecoration: 'none', color: 'inherit' }}
           >
-            🍽️ Project Name 🍽️
+            🍽️ ProjectName 🍽️
           </Title>
 
-          {/* Navigation + Theme Toggle */}
           <Group>
+            {/* --- THIS IS THE BUTTON YOU WANTED --- */}
             <Button variant="subtle" component={Link} to="/create">
               Post a Meal
             </Button>
-            <Button variant="default" component={Link} to="/login">
-              Log In
-            </Button>
-            <Button component={Link} to="/signup">
-              Sign Up
-            </Button>
+            {/* ------------------------------------ */}
 
-            {/* 🌗 Theme Toggle Button */}
             <ActionIcon
               onClick={toggleColorScheme}
               variant="light"
               size="lg"
               radius="xl"
-              aria-label="Toggle color scheme"
-              sx={{
-                transition: 'transform 0.3s ease',
-                '&:hover': { transform: 'rotate(20deg)' },
-              }}
             >
               {computedColorScheme === 'light' ? (
-                <IconMoon
-                  size={20}
-                  style={{
-                    transition: 'transform 0.3s ease, opacity 0.3s ease',
-                    transform: 'rotate(0deg)',
-                    opacity: 1,
-                  }}
-                />
+                <IconMoon size={20} />
               ) : (
-                <IconSun
-                  size={20}
-                  style={{
-                    transition: 'transform 0.3s ease, opacity 0.3s ease',
-                    transform: 'rotate(180deg)',
-                    opacity: 1,
-                    color: '#FFD43B',
-                  }}
-                />
+                <IconSun size={20} />
               )}
             </ActionIcon>
+            <UserButton afterSignOutUrl="/login" />
           </Group>
         </Group>
       </AppShell.Header>
@@ -95,17 +82,61 @@ function AppLayout() {
   );
 }
 
+// 2. A simple layout to center the login/signup forms
+function AuthLayout() {
+  return (
+    <Container size={450} my={100}>
+      <Center>
+        <Outlet />
+      </Center>
+    </Container>
+  );
+}
+
+// 3. This is your main App component with all routes
 export function App() {
   return (
     <Routes>
-      <Route path="/" element={<AppLayout />}>
+      {/* Auth routes for signed-out users */}
+      <Route element={<AuthLayout />}>
+        <Route
+          path="/login"
+          element={<SignIn routing="path" path="/login" />}
+        />
+        <Route
+          path="/signup"
+          element={<SignUp routing="path" path="/signup" />}
+        />
+      </Route>
+
+      {/* Protected routes for signed-in users */}
+      <Route
+        element={
+          <SignedIn>
+            <AppLayout />
+          </SignedIn>
+        }
+      >
         <Route index element={<HomePage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="signup" element={<SignUpPage />} />
         <Route path="create" element={<CreateListingPage />} />
         <Route path="listing/:id" element={<ListingDetailsPage />} />
         <Route path="my-listings" element={<MyListingsPage />} />
       </Route>
+
+      {/* Catch-all route to handle auth redirect */}
+      <Route
+        path="*"
+        element={
+          <>
+            <SignedIn>
+              <AppLayout />
+            </SignedIn>
+            <SignedOut>
+              <RedirectToSignIn />
+            </SignedOut>
+          </>
+        }
+      />
     </Routes>
   );
 }
