@@ -36,7 +36,7 @@ export async function addListing(req, res) {
 
 export async function deleteListing(req, res) {
     const id = req.params.id 
-    const {data, error} = await supabase.from('listing').select('*').eq('id', id).single()
+    const {data, error} = await supabase.from('listings').delete('*').eq('id', id).single()
     if (error) {
         console.error(error);
         return res.status(500).json({ error: error.message });
