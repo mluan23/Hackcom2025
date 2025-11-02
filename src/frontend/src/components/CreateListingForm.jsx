@@ -4,6 +4,7 @@ import { TextInput, Textarea, NumberInput, FileInput, Button, Group, Box, Image 
 export function CreateListingForm() {
   // 1️⃣ Form state
   const [title, setTitle] = useState(''); // Food title
+  const [location, setLocation] = useState(''); // Pickup location
   const [description, setDescription] = useState(''); // Food description
   const [price, setPrice] = useState(1); // Food price
   const [file, setFile] = useState(null); // Uploaded image file
@@ -30,7 +31,7 @@ export function CreateListingForm() {
     setIsLoading(true); // Show loading state
 
     // TODO: Upload file & send listing data to backend
-    console.log({ title, description, price, file });
+    console.log({ title, location, description, price, file });
 
     // Simulate an API call
     setTimeout(() => {
@@ -49,6 +50,16 @@ export function CreateListingForm() {
         required
         value={title}
         onChange={(event) => setTitle(event.currentTarget.value)}
+      />
+
+      {/* Location input */}
+      <TextInput
+        label="Pickup Location:"
+        placeholder="Where can the food be picked up?"
+        required
+        mt="md"
+        value={location}
+        onChange={(event) => setLocation(event.currentTarget.value)}
       />
 
       {/* Description input */}
