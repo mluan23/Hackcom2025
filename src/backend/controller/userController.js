@@ -23,9 +23,9 @@ export async function getSpecificUser(req, res) {
 }
 
 export async function addUser(req, res) {
-    const { username, email } = req.body
+    const { username, email, first_name, last_name, password } = req.body
     const { data, error } = await supabase.from('users')
-    .insert({ username, email }) 
+    .insert({ username, email, first_name, last_name, password }) 
 
     if (error) {
         console.error(error);
