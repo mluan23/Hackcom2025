@@ -1,4 +1,6 @@
 // import userService from '../services/userService.js';
+import supabase from '../app.js'
+
 
 export async function getAllUsers(req, res) {
     const {data, error} = await supabase.from('users').select('*')
