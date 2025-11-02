@@ -6,12 +6,15 @@ export function ListingDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [purchased, setPurchased] = useState(false);
+  const [listing, setListing] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  
 
   useEffect(() => {
     async function fetchListing() {
       const response = await fetch(`http://localhost:3000/listings/${id}`);
       const data = await response.json();
+      setListing(data);
       setPurchased(data.purchased);
       setIsLoading(false);
     }
@@ -34,8 +37,13 @@ export function ListingDetailsPage() {
 
   return (
     <div>
-      <Title>Listing Details Page</Title>
-      <p>This is where the details of a specific food listing will go!</p>
+      <Title>{listing.title}</Title>
+      <p>{listing.description}</p>
+       {/* <Image
+                src={listing.image_link}
+                height={160}
+                alt={listing.title}
+              /> */}
       <Button
         onClick={handlePurchase}
         disabled={purchased}

@@ -3,27 +3,30 @@ import { ElevenLabsClient, play } from '@elevenlabs/elevenlabs-js';
 import { Readable } from 'stream';
 import 'dotenv/config';
 
+import multer from 'multer'
+
+const upload = multer({storage: multer.memoryStorage()})
+
 const ai = new GoogleGenAI(process.env.GEMINI_API_KEY);
 
 const elevenLabs = new ElevenLabsClient({
     apiKey: process.env.ELEVENLABS_API_KEY,
 });
 
-async function generateText(prompt) {
-    try {
-        const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
-            contents: prompt,
-        });
-
-        console.log(response.text);
-        return response.text;
-    }
-    catch (error) {
-        console.error("Gemini API Error: ", error);
-        return "Error encountered by ai."
-    }
+// array of contents: image part, and a text prompt
+async function generateText(contents) {
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents,
+    });
+    return response.text;
+  } catch (error) {
+    console.error("Gemini API Error: ", error);
+    return "Error encountered by AI.";
+  }
 }
+
 
 // generateText("Give me a recipe for making crispy chicken")
 
@@ -132,5 +135,7 @@ export default {
     // generateAndReadRecipe,
     // generateAudio,
     audioGen,
+    generateText
+
 
 }

@@ -12,6 +12,9 @@ export function CreateListingForm() {
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null); 
   const [isLoading, setIsLoading] = useState(false);
+  // const [description, setDescription] = useState('');
+
+
 
   useEffect(() => {
     if (!file) {
@@ -25,6 +28,22 @@ export function CreateListingForm() {
     // Cleanup URL when component unmounts or file changes to avoid memory leaks
     return () => URL.revokeObjectURL(objectUrl);
   }, [file]);
+
+  // this should generate a description given a file
+  // this formData seems to be correct
+  const generateDescription = async () => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('prompt', 'Generate a detailed and appetizing description for a food listing based on the image provided.');
+
+    // You can replace this with a real AI-generated string later
+    const response = await fetch('http://localhost:3000/generate', {
+      method: 'POST',
+      body: formData,
+    })
+    const data = await response.json();
+    setDescription(data.text);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault(); 
@@ -73,6 +92,7 @@ export function CreateListingForm() {
         onChange={(event) => setLocation(event.currentTarget.value)}
       />
 
+      <>
       <Textarea
         label="Description:"
         placeholder="Tell us about the food..."
@@ -81,6 +101,16 @@ export function CreateListingForm() {
         value={description}
         onChange={(event) => setDescription(event.currentTarget.value)}
       />
+
+      <Group mt="xs">
+        <Button variant="light" onClick={generateDescription}>
+          Generate Description
+        </Button>
+        <Button variant="default" onClick={() => setDescription('')}>
+          Clear
+        </Button>
+      </Group>
+    </>
 
       <NumberInput
         label="Price:"

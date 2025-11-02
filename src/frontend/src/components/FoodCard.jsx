@@ -58,6 +58,7 @@ export function FoodCard({ listing }) {
       </Button>
 
       {/* <Button
+      variant="subtle"
         onClick={() => {
           fetch('http://localhost:3000/listings/' + id, {
           method: 'DELETE',
@@ -66,7 +67,7 @@ export function FoodCard({ listing }) {
           })
         }}
         >
-        Purchase
+        ❌
       </Button> */}
 
       <a
