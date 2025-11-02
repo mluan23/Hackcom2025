@@ -30,7 +30,6 @@ import { MyListingsPage } from './pages/MyListingsPage';
 // import { LoginPage } from './pages/LoginPage';
 // import { SignUpPage } from './pages/SignUpPage';
 
-// 1. This is your main layout for logged-in users
 function AppLayout() {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme('light');
@@ -48,11 +47,10 @@ function AppLayout() {
             to="/"
             style={{ textDecoration: 'none', color: 'inherit' }}
           >
-            🍽️ ProjectName 🍽️
+            🍽️ HungryHelper 🍽️
           </Title>
 
           <Group>
-            {/* --- THIS IS THE BUTTON YOU WANTED --- */}
             <Button variant="subtle" component={Link} to="/create">
               Post a Meal
             </Button>
