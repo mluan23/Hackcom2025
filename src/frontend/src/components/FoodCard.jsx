@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom';
 // Pass in props for each listing
 export function FoodCard({ listing }) {
   // Destructure the listing object (you'll get this from your database)
-  const { id, title, description, price, imageUrl } = listing;
+  const { id, title, description, price, image_link, location } = listing;
+  const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
         <Image
-          src={imageUrl || 'https://via.placeholder.com/300x200?text=No+Image'}
+          src={image_link}
           height={160}
           alt={title}
         />
@@ -38,6 +39,16 @@ export function FoodCard({ listing }) {
       >
         View Details
       </Button>
+
+      <a
+        href={mapUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {location}
+      </a>
+
+      
     </Card>
   );
 }

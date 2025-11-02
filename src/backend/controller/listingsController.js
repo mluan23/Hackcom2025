@@ -23,8 +23,8 @@ export async function getSpecificListing(req, res) {
 }
 
 export async function addListing(req, res) {
-    const { text, image_link, description, price } = req.body
-    const { data, error } = await supabase.from('listings').insert({ text, image_link, description, price })
+    const { title, image_link, description, price, location } = req.body
+    const { data, error } = await supabase.from('listings').insert({ title, image_link, description, price, location })
 
     if (error) {
         console.error(error);

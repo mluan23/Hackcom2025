@@ -1,38 +1,30 @@
 import { SimpleGrid, Container, Title, Text } from '@mantine/core';
 import { FoodCard } from '../components/FoodCard';
+import { useState } from 'react';
+import { useEffect } from 'react';
+
 
 export function HomePage() {
   // Example food listings
-  const listings = [
-    {
-      id: 1,
-      title: 'Spaghetti Bolognese',
-      description: 'Delicious homemade spaghetti with rich tomato and meat sauce.',
-      price: 9.99,
-      imageUrl: 'https://via.placeholder.com/300x200?text=Spaghetti',
-    },
-    {
-      id: 2,
-      title: 'Chicken Caesar Salad',
-      description: 'Fresh romaine lettuce with grilled chicken, parmesan, and croutons.',
-      price: 4.99,
-      imageUrl: 'https://via.placeholder.com/300x200?text=Salad',
-    },
-    {
-      id: 3,
-      title: 'Vegan Buddha Bowl',
-      description: 'Healthy bowl with quinoa, chickpeas, roasted veggies, and tahini dressing.',
-      price: 7.99,
-      imageUrl: 'https://via.placeholder.com/300x200?text=Buddha+Bowl',
-    },
-    {
-      id: 4,
-      title: 'Cheeseburger',
-      description: 'Juicy beef patty with cheddar, lettuce, tomato, and special sauce.',
-      price: 5.99,
-      imageUrl: 'https://via.placeholder.com/300x200?text=Cheeseburger',
-    },
-  ];
+  // get listings form db
+  const [listings, setListings] = useState([]);
+
+  useEffect(() => {
+    async function fetchListings() {
+      try {
+        const response = await fetch('http://localhost:3000/listings', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        const data = await response.json();
+        setListings(data);
+      } catch (error) {
+        console.error('Failed to fetch listings:', error);
+      }
+    }
+
+    fetchListings();
+  }, []);
 
   return (
     <Container
