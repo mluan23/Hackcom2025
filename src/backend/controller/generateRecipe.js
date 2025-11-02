@@ -131,11 +131,30 @@ export async function audioGen(req, res) {
     }
 }
 
+
+
+export async function generateText2(prompt) {
+    try {
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: prompt,
+        });
+
+        console.log(response.text);
+        return response.text;
+    }
+    catch (error) {
+        console.error("Gemini API Error: ", error);
+        return "Error encountered by ai."
+    }
+}
+
 export default {
     // generateAndReadRecipe,
     // generateAudio,
     audioGen,
-    generateText
+    generateText,
+    generateText2
 
 
 }
