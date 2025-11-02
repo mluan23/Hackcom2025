@@ -1,35 +1,28 @@
-const express = require('express')
-const app = express()
+const app = express();
 const port = 3000
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import { createClient } from "@supabase/supabase-js";
 
-app.use(express.json()) // allow for JSON
+dotenv.config();
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY;
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let users = [
-    { id: 1, name: 'Alice'}
-]
 
-// root
-app.get('/', (req, res) => {
-    res.send('test')
-})
 
-// get all users
-app.get('/users', (req, res) => {
-    res.json(users)
-})
 
-// array of posts -> name + image link + description + id
-// adding new user, user o
-app.post('/users', (req, res) => {
-    const newUser = {
-        id: users.length + 1,
-        name: req.body.name,
-        email: req.body.email
-    };
-    users.push(newUser);
-    res.status(201).json(newUser);
-})
+// we are telling express to use our userRoutes for any requests
+import userRoutes from './routes/userRoutes.js';
 
-app.listen(port, () => {
-    console.log('server started')
-})
+app.use(express.json());
+app.use(cors());
+app.use('/', userRoutes);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log('Server running on port ${PORT}');
+});
+
+export default supabase;

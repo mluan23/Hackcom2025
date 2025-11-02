@@ -26,12 +26,18 @@ export function SignUpPage() {
 
     // TODO: Send this data to your backend
     console.log('Submitting signup form:');
-    console.log({ firstName, lastName, email, password });
+    console.log({ "first_name": firstName, "last_name": lastName, "email": email, "password": password });
 
-    setTimeout(() => {
-      alert(`Account created (simulated) for: ${firstName} ${lastName}`);
+    fetch('http://localhost:3000/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ "first_name": firstName, "last_name": lastName, "email": email, "password": password }),
+    }).then(response => {
+      alert(`Account created (simulated) for: ${response} ${lastName}`);
       setIsLoading(false);
-    }, 1000);
+    })
   };
 
   // 3️⃣ UI
