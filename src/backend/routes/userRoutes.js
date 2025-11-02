@@ -5,6 +5,7 @@ import userController from '../controller/userController.js';
 import listingsController from '../controller/listingsController.js';
 import audioController from '../controller/generateRecipe.js';
 import multer from 'multer'
+import agentController from '../controller/agentController.js';
 
 const upload = multer({storage: multer.memoryStorage()})
 // import { generateAudio } from '../generateRecipe.js';
@@ -55,6 +56,6 @@ router.post('/generate', upload.single('file'), async (req, res) => {
   }
 });
 
-// router.post('/generate-audio', generateAudio);
+router.post('/createAgent', agentController.createAgent);
 
 export default router;
