@@ -15,12 +15,10 @@ import { useNavigate } from 'react-router-dom';
 
 export function LoginPage() {
   const navigate = useNavigate();
-  // 1. Create state to store what the user types
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // 2. A function to handle the form submission
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent the page from reloading
     setIsLoading(true);
@@ -70,7 +68,6 @@ export function LoginPage() {
         p={30} 
         mt={30} 
         radius="md">
-        {/* 3. The form itself */}
         <form onSubmit={handleSubmit}>
           <TextInput
             label="Email"

@@ -13,5 +13,6 @@ router.get('/listings', listingsController.getAllListings);
 router.get('/listings/:id', listingsController.getSpecificListing);
 router.post('/listings', listingsController.addListing);
 router.delete('/listings/:id', listingsController.deleteListing);
+router.put('/listings/:id', listingsController.updateListing);
 
 export default router;

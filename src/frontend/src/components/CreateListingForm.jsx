@@ -5,16 +5,14 @@ import { useNavigate } from 'react-router-dom';
 
 export function CreateListingForm() {
   const navigate = useNavigate();
-  // 1️⃣ Form state
-  const [title, setTitle] = useState(''); // Food title
-  const [location, setLocation] = useState(''); // Pickup location
-  const [description, setDescription] = useState(''); // Food description
-  const [price, setPrice] = useState(1); // Food price
-  const [file, setFile] = useState(null); // Uploaded image file
-  const [previewUrl, setPreviewUrl] = useState(null); // Preview URL for image
-  const [isLoading, setIsLoading] = useState(false); // Loading state for submit button
+  const [title, setTitle] = useState(''); 
+  const [location, setLocation] = useState(''); 
+  const [description, setDescription] = useState(''); 
+  const [price, setPrice] = useState(1); 
+  const [file, setFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null); 
+  const [isLoading, setIsLoading] = useState(false);
 
-  // 2️⃣ Generate preview when user selects a file
   useEffect(() => {
     if (!file) {
       setPreviewUrl(null); // Reset preview if no file
@@ -28,27 +26,36 @@ export function CreateListingForm() {
     return () => URL.revokeObjectURL(objectUrl);
   }, [file]);
 
-  // 3️⃣ Handle form submission
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent page reload
-    setIsLoading(true); // Show loading state
+    event.preventDefault(); 
+    setIsLoading(true);
 
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('title', title)
+    formData.append('description', description)
+    formData.append('price', price)
+    formData.append('location', location) 
+
+    // await fetch('http://localhost:3000/listings', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   file: file,
+    //   body: JSON.stringify({ "title": title, "description": description, "price": price, "location": location }),
+    // })
     await fetch('http://localhost:3000/listings', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ "title": title, "image_link": file.name, "description": description, "price": price, }),
+      body: formData,
     })
     setIsLoading(false)
     navigate('/')
 
   };
 
-  // 4️⃣ Render form
   return (
     <Box component="form" maw={500} mx="auto" onSubmit={handleSubmit}>
-      {/* Food title input */}
       <TextInput
         label="Food Title:"
         placeholder="e.g., Chicken Alfredo"
@@ -57,7 +64,6 @@ export function CreateListingForm() {
         onChange={(event) => setTitle(event.currentTarget.value)}
       />
 
-      {/* Location input */}
       <TextInput
         label="Pickup Location:"
         placeholder="Where can the food be picked up?"
@@ -67,7 +73,6 @@ export function CreateListingForm() {
         onChange={(event) => setLocation(event.currentTarget.value)}
       />
 
-      {/* Description input */}
       <Textarea
         label="Description:"
         placeholder="Tell us about the food..."
@@ -77,7 +82,6 @@ export function CreateListingForm() {
         onChange={(event) => setDescription(event.currentTarget.value)}
       />
 
-      {/* Price input */}
       <NumberInput
         label="Price:"
         placeholder="Set a price"
@@ -90,7 +94,6 @@ export function CreateListingForm() {
         prefix="$"
       />
 
-      {/* File upload input */}
       <FileInput
         label="Upload Food Photo:"
         placeholder="Click to upload an image"
@@ -101,7 +104,6 @@ export function CreateListingForm() {
         accept="image/png,image/jpeg"
       />
 
-      {/* Live image preview */}
       {previewUrl && (
         <Image
           src={previewUrl}
@@ -114,7 +116,6 @@ export function CreateListingForm() {
         />
       )}
 
-      {/* Submit button */}
       <Group justify="flex-end" mt="xl">
         <Button type="submit" loading={isLoading}>
           Post Meal

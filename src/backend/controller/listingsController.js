@@ -30,7 +30,7 @@ export const addListing = [
     upload.single('file'),
     async (req, res) => {
         try {
-            const {title, description, price} = req.body
+            const {title, description, price, location} = req.body
             const file = req.file
 
             if (!file) {
@@ -57,7 +57,7 @@ export const addListing = [
 
             // insert listing into database with image link 
             const { data: listingData, error:dbError } = await supabase.from('listings')
-            .insert({ title, image_link, description, price }).select()
+            .insert({ title, image_link, description, price, location }).select()
 
             if (dbError) {
                 console.error(dbError)
@@ -85,10 +85,23 @@ export async function deleteListing(req, res) {
     res.json(data)
 }
 
+export async function updateListing(req, res) {
+    const id = req.params.id 
+    const {data, error} = await supabase.from('listings').update({purchased: true}).eq('id', id).single()
+    if (error) {
+        console.error(error);
+        return res.status(500).json({ error: error.message });
+    }
+
+
+    res.json(data)
+}
+
 
 export default {
     getAllListings,
     getSpecificListing,
     addListing,
-    deleteListing
+    deleteListing,
+    updateListing
 }

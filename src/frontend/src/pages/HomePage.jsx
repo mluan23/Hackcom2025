@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 
 
 export function HomePage() {
-  // Example food listings
   // get listings form db
   const [listings, setListings] = useState([]);
 

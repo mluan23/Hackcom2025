@@ -1,14 +1,31 @@
 import { Card, Image, Text, Badge, Button, Group } from '@mantine/core';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-// Pass in props for each listing
+
 export function FoodCard({ listing }) {
-  // Destructure the listing object (you'll get this from your database)
-  const { id, title, description, price, image_link, location } = listing;
+  const { id, title, description, price, image_link, location, purchased } = listing;
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
 
   return (
+
     <Card shadow="sm" padding="lg" radius="md" withBorder>
+      {purchased && (
+  <Text
+    style={{
+      position: 'absolute',
+      top: '10px',
+      right: '10px',
+      backgroundColor: '#444',
+      color: 'white',
+      padding: '4px 8px',
+      borderRadius: '4px',
+      zIndex: 6,
+    }}
+  >
+    Purchased
+  </Text>
+)}
       <Card.Section>
         <Image
           src={image_link}
@@ -40,6 +57,18 @@ export function FoodCard({ listing }) {
         View Details
       </Button>
 
+      {/* <Button
+        onClick={() => {
+          fetch('http://localhost:3000/listings/' + id, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          
+          })
+        }}
+        >
+        Purchase
+      </Button> */}
+
       <a
         href={mapUrl}
         target="_blank"
@@ -47,6 +76,7 @@ export function FoodCard({ listing }) {
       >
         {location}
       </a>
+      
 
       
     </Card>

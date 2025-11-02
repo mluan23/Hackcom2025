@@ -1,18 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// Create context
 const UserContext = createContext();
 
-// Custom hook to use it
 export function useUser() {
   return useContext(UserContext);
 }
 
-// Provider component
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  // On mount, check if a user is saved (for persistence)
   useEffect(() => {
     const saved = localStorage.getItem('user');
     if (saved) {

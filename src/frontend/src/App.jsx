@@ -82,7 +82,6 @@ function AppLayout() {
   );
 }
 
-// 2. A simple layout to center the login/signup forms
 function AuthLayout() {
   return (
     <Container size={450} my={100}>
@@ -93,11 +92,9 @@ function AuthLayout() {
   );
 }
 
-// 3. This is your main App component with all routes
 export function App() {
   return (
     <Routes>
-      {/* Auth routes for signed-out users */}
       <Route element={<AuthLayout />}>
         <Route
           path="/login"
@@ -109,7 +106,6 @@ export function App() {
         />
       </Route>
 
-      {/* Protected routes for signed-in users */}
       <Route
         element={
           <SignedIn>

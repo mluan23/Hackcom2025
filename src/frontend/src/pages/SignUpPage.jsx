@@ -12,19 +12,16 @@ import {
 import { Link } from 'react-router-dom';
 
 export function SignUpPage() {
-  // 1️⃣ Form state
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // 2️⃣ Handle submission
   const handleSubmit = (event) => {
     event.preventDefault();
     setIsLoading(true);
 
-    // TODO: Send this data to your backend
     console.log('Submitting signup form:');
     console.log({ "first_name": firstName, "last_name": lastName, "email": email, "password": password });
 
@@ -40,7 +37,6 @@ export function SignUpPage() {
     })
   };
 
-  // 3️⃣ UI
   return (
     <Container
       size={450}
